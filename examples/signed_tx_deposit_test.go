@@ -14,7 +14,7 @@ import (
 // eth el endpoint
 // @see https://docs.chainupcloud.com/blockchain-api/ethereum
 // @see https://www.infura.io/
-const evmAddr = "https://api.chainup.net/ethereum/holesky/${YOUR_TOKEN}"
+const evmAddr = "https://api.chainup.net/ethereum/${NETWORK}/${YOUR_TOKEN}"
 
 // Sign the tx of the deposit
 func TestSignTx(t *testing.T) {
