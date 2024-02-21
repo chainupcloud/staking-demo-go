@@ -10,7 +10,6 @@ import (
 	"github.com/ethereum/go-ethereum/accounts/abi"
 	"github.com/ethereum/go-ethereum/common/hexutil"
 	"github.com/stretchr/testify/require"
-	"math/big"
 	"strings"
 	"testing"
 )
@@ -51,7 +50,7 @@ func TestSignTx(t *testing.T) {
 	}
 	privateKeyHex := ""
 
-	signedTx, err := SignTx(context.Background(), testEVMAddr, txParams, big.NewInt(17000), privateKeyHex)
+	signedTx, err := SignTx(context.Background(), testEVMAddr, txParams, privateKeyHex)
 	require.NoError(t, err)
 
 	t.Log("signedTx", signedTx)

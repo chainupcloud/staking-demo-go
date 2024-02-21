@@ -28,14 +28,13 @@ type TxParams struct {
 	ContractCallData string `json:"contract_call_data"`
 }
 
-func SignTx(ctx context.Context, evmAddr string, txParams TxParams, chainId *big.Int, privateKeyHex string) (string, error) {
+func SignTx(ctx context.Context, evmAddr string, txParams TxParams, privateKeyHex string) (string, error) {
 	privateKey, err := crypto.HexToECDSA(privateKeyHex)
 	if err != nil {
 		return "", errors.Wrap(err, "crypto.HexToECDSA for privateKeyHex.")
 	}
 	address := crypto.PubkeyToAddress(privateKey.PublicKey).Hex()
 
-	s := types.NewEIP155Signer(chainId)
 	to := common.HexToAddress(txParams.To)
 	data, err := hexutil.Decode(txParams.ContractCallData)
 	if err != nil {
@@ -55,6 +54,12 @@ func SignTx(ctx context.Context, evmAddr string, txParams TxParams, chainId *big
 	if err != nil {
 		return "", errors.Wrap(err, "get nonce.")
 	}
+
+	chainID, err := client.ChainID(ctx)
+	if err != nil {
+		return "", errors.Wrap(err, "get chainID.")
+	}
+	s := types.NewEIP155Signer(chainID)
 
 	gasPrice, err := client.SuggestGasPrice(ctx)
 	if err != nil {
